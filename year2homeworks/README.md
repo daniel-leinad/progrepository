@@ -1,4 +1,5 @@
 ДЗ студента 2 курса ФИКЛ Даниил Веденеева
+
 предыдущие дз - https://github.com/guitrst/progrepository
 
 виселица - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw1

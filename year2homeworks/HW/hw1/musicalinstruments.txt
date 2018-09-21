@@ -1,0 +1,11 @@
+accordion
+guitar
+didgeridoo
+mandolin
+percussion
+harmonica
+clarinet
+whistle
+sitar
+synthesizer
+tambourine

@@ -1,0 +1,12 @@
+giraffe
+elephant
+goldfish
+lizard
+octopus
+squirrel
+tortoise
+wolverine
+rattlesnake
+mammoth
+hippopotamus
+centipede

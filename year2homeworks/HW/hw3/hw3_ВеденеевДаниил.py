@@ -1,6 +1,7 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import os
+# это предварительный вариант, который заливает только plain тексты, причем не по пепу
 
 def isreal(theurl):
     req = urllib.request.Request(theurl, headers={'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'})

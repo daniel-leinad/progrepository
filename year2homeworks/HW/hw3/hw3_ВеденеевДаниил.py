@@ -1,8 +1,6 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import os
-# это предварительный вариант,
-# который заливает только plain тексты
 
 
 u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
@@ -19,7 +17,7 @@ def isreal(theurl):
 
 def lastnum(tpc):
     # эта функция определяет номер последней статьи в выбранном топике
-    theurl = 'http://www.surskieprostori.ru/news-'+tpc+'.html'
+    theurl = 'http://www.surskieprostori.ru/news-' + tpc + '.html'
     u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
         'AppleWebKit/537.36 (KHTML, like Gecko) ' \
         'Chrome/60.0.3112.113 Safari/537.36'
@@ -27,15 +25,15 @@ def lastnum(tpc):
     with urllib.request.urlopen(req) as response:
         html = response.read().decode('windows-1251')
     x = html.find('<div class="onemidnew">')
-    y = html.find('<a href="/news-'+tpc+'-', x)
+    y = html.find('<a href="/news-' + tpc + '-', x)
     yy = html.find('.html">', y)
-    return int(html[y+len('<a href="/news-'+tpc+'-'):yy])
+    return int(html[y + len('<a href="/news-' + tpc + '-'):yy])
 
 
 def between(t, b):
     x = t.find(b[0])
     y = t.find(b[1], x)
-    return t[x+len(b[0]):y]
+    return t[x + len(b[0]):y]
 
 
 def putfileto(directory, filetype, content):
@@ -43,43 +41,71 @@ def putfileto(directory, filetype, content):
         os.makedirs(directory)
     i = 1
     while True:
-        if not os.path.exists(directory+'статья'+str(i)+'.'+filetype):
+        if not os.path.exists(directory + 'статья' + str(i) + '.' + filetype):
             break
         i += 1
-    name = 'статья'+str(i)+'.'+filetype
-    f = open(directory+name, 'w')
+    name = 'статья' + str(i) + '.' + filetype
+    f = open(directory + name, 'w')
     f.write(content)
     f.close()
+    return directory + name
 
 
 def plain(datas):
-    cntnt = '@au '+datas['au']+'\n'
-    cntnt += '@ti '+datas['ti']+'\n'
-    cntnt += '@da '+datas['da']+'\n'
-    cntnt += '@topic '+datas['topic']+'\n'
-    cntnt += '@url '+datas['url']+'\n'
+    cntnt = '@au ' + datas['au'] + '\n'
+    cntnt += '@ti ' + datas['ti'] + '\n'
+    cntnt += '@da ' + datas['da'] + '\n'
+    cntnt += '@topic ' + datas['topic'] + '\n'
+    cntnt += '@url ' + datas['url'] + '\n'
     cntnt += datas['text']
     direc = './plain/' + \
         datas['da'].split('.')[2] + '/' + \
         datas['da'].split('.')[1] + '/'
-    putfileto(direc, 'txt', cntnt)
+    res = putfileto(direc, 'txt', cntnt)
+    return res
 
 
 def mystemxml(datas):
-    pass
+    f = open('input.txt', 'w', encoding='utf-8')
+    f.write(datas['text'])
+    f.close()
+    os.system(r'cd C:/mystem/')
+    os.system(r'mystem.exe -l --format xml input.txt output.txt')
+    f = open('output.txt', 'r')
+    restext = f.read()
+    f.close()
+    direct = './mystem-xml/' + '/'.join(datas['direc'].split('/')[2:-1]) + '/'
+    putfileto(direct, 'xml', restext)
 
 
-def mystemtxt(datas):
-    pass
+def mystem(datas):
+    f = open('input.txt', 'w', encoding='utf-8')
+    f.write(datas['text'])
+    f.close()
+    os.system(r'cd C:/mystem/')
+
+    os.system(r'mystem.exe -c -l -i -g -d --eng-gr input.txt output.txt')
+    f = open('output.txt', 'r')
+    restext = f.read()
+    f.close()
+    direct = './mystem-plain/' + \
+        '/'.join(datas['direc'].split('/')[2:-1]) + '/'
+    putfileto(direct, 'txt', restext)
+
+    os.system(r'mystem.exe -c -l -i -g -d --eng-gr --format '
+              'xml input.txt output.txt')
+    f = open('output.txt', 'r')
+    restext = f.read()
+    f.close()
+    direct = './mystem-xml/' + '/'.join(datas['direc'].split('/')[2:-1]) + '/'
+    putfileto(direct, 'xml', restext)
 
 
 def rootcsv(datas):
-    f = open('metadata.csv', 'a+')
+    f = open('metadata.csv', 'a+', encoding='utf-8')
     f.write('\n')
     metadata = []
-    path = './plain/' + \
-        datas['da'].split('.')[2] + '/' + \
-        datas['da'].split('.')[1] + '/'
+    path = datas['direc']
     metadata.append(path)
     metadata.append(datas['au'])
     metadata.append(datas['ti'])
@@ -102,7 +128,7 @@ def rootcsv(datas):
 
 
 def createcsv():
-    f = open('metadata.csv', 'w')
+    f = open('metadata.csv', 'w', encoding='utf-8')
     f.write(
         'path\tauthor\theader\tcreated\t'
         'sphere\ttopic\tstyle\taudience_age\t'
@@ -119,6 +145,8 @@ def pagedatas(theurl):
     soup = BeautifulSoup(thetext, 'html.parser')
     datas = {}
     datas['text'] = soup.get_text()
+    # теперь заменяем все точки на точку и перенос строки
+    datas['text'] = '.\n'.join(datas['text'].split('.'))
     datas['au'] = 'None'
     # Автор не везде указан, а там, где указан -
     # не отделить однозначно от текста
@@ -132,18 +160,19 @@ def pagedatas(theurl):
 topics = ['1', '31', '37', '20', '11', '10', '8', '7', '5', '3']
 # номера соответствуют интересующим нас отделам
 createcsv()
-for tpic in topics:
+for tpic in topics[:1]:
     num = lastnum(tpic)
     xxx = 0
     while True:
-        url = 'http://www.surskieprostori.ru/news-'+tpic+'-'+str(num)+'.html'
+        url = 'http://www.surskieprostori.ru/news-' + \
+            tpic + '-' + str(num) + '.html'
         if isreal(url):
             xxx += 1
+            print(xxx)
             newsdatas = pagedatas(url)
+            newsdatas['direc'] = plain(newsdatas)
             rootcsv(newsdatas)
-            plain(newsdatas)
-            mystemxml(newsdatas)
-            mystemtxt(newsdatas)
-        if xxx >= 50:
+            mystem(newsdatas)
+        if xxx >= 1:
             break
         num -= 1

@@ -160,7 +160,7 @@ def pagedatas(theurl):
 topics = ['1', '31', '37', '20', '11', '10', '8', '7', '5', '3']
 # номера соответствуют интересующим нас отделам
 createcsv()
-for tpic in topics[:1]:
+for tpic in topics:
     num = lastnum(tpic)
     xxx = 0
     while True:
@@ -169,10 +169,15 @@ for tpic in topics[:1]:
         if isreal(url):
             xxx += 1
             print(xxx)
+            # счетчик чтобы не запутаться
             newsdatas = pagedatas(url)
             newsdatas['direc'] = plain(newsdatas)
             rootcsv(newsdatas)
             mystem(newsdatas)
-        if xxx >= 1:
+        if xxx >= 50:
+            # чтобы скачало 50*10 = 500, что по приблизительным
+            # расчетам должно быть больше 100к слов
             break
         num -= 1
+os.remove('input.txt')
+os.remove('output.txt')

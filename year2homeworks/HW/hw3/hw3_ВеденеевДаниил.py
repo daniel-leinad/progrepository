@@ -1,29 +1,42 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import os
-# это предварительный вариант, который заливает только plain тексты, причем не по пепу
+# это предварительный вариант,
+# который заливает только plain тексты
+
+
+u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
+        'AppleWebKit/537.36 (KHTML, like Gecko) ' \
+        'Chrome/60.0.3112.113 Safari/537.36'
+
 
 def isreal(theurl):
-    req = urllib.request.Request(theurl, headers={'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'})
+    req = urllib.request.Request(theurl, headers={'User-agent': u_a})
     with urllib.request.urlopen(req) as response:
         html = response.read().decode('windows-1251')
     return html.find('<div class="mndata"></div>') == -1
 
+
 def lastnum(tpc):
     # эта функция определяет номер последней статьи в выбранном топике
     theurl = 'http://www.surskieprostori.ru/news-'+tpc+'.html'
-    req = urllib.request.Request(theurl, headers={'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'})
+    u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
+        'AppleWebKit/537.36 (KHTML, like Gecko) ' \
+        'Chrome/60.0.3112.113 Safari/537.36'
+    req = urllib.request.Request(theurl, headers={'User-agent': u_a})
     with urllib.request.urlopen(req) as response:
         html = response.read().decode('windows-1251')
     x = html.find('<div class="onemidnew">')
-    y = html.find('<a href="/news-'+tpc+'-',x)
-    yy = html.find('.html">',y)
+    y = html.find('<a href="/news-'+tpc+'-', x)
+    yy = html.find('.html">', y)
     return int(html[y+len('<a href="/news-'+tpc+'-'):yy])
+
 
 def between(t, b):
     x = t.find(b[0])
     y = t.find(b[1], x)
     return t[x+len(b[0]):y]
+
 
 def putfileto(directory, filetype, content):
     if not os.path.exists(directory):
@@ -38,6 +51,7 @@ def putfileto(directory, filetype, content):
     f.write(content)
     f.close()
 
+
 def plain(datas):
     cntnt = '@au '+datas['au']+'\n'
     cntnt += '@ti '+datas['ti']+'\n'
@@ -45,20 +59,27 @@ def plain(datas):
     cntnt += '@topic '+datas['topic']+'\n'
     cntnt += '@url '+datas['url']+'\n'
     cntnt += datas['text']
-    direc = './plain/'+datas['da'].split('.')[2]+'/'+datas['da'].split('.')[1]+'/'
+    direc = './plain/' + \
+        datas['da'].split('.')[2] + '/' + \
+        datas['da'].split('.')[1] + '/'
     putfileto(direc, 'txt', cntnt)
+
 
 def mystemxml(datas):
     pass
 
+
 def mystemtxt(datas):
     pass
+
 
 def rootcsv(datas):
     f = open('metadata.csv', 'a+')
     f.write('\n')
     metadata = []
-    path = './plain/'+datas['da'].split('.')[2]+'/'+datas['da'].split('.')[1]+'/'
+    path = './plain/' + \
+        datas['da'].split('.')[2] + '/' + \
+        datas['da'].split('.')[1] + '/'
     metadata.append(path)
     metadata.append(datas['au'])
     metadata.append(datas['ti'])
@@ -79,21 +100,28 @@ def rootcsv(datas):
     f.write('\t'.join(metadata))
     f.close()
 
+
 def createcsv():
     f = open('metadata.csv', 'w')
-    f.write('path\tauthor\theader\tcreated\tsphere\ttopic\tstyle\taudience_age\taudience_level\taudience_size\tsource\tpublication\tpubl_year\tmedium\tcountry\tregion\tlanguage')
+    f.write(
+        'path\tauthor\theader\tcreated\t'
+        'sphere\ttopic\tstyle\taudience_age\t'
+        'audience_level\taudience_size\tsource\t'
+        'publication\tpubl_year\tmedium\tcountry\tregion\tlanguage')
     f.close()
 
+
 def pagedatas(theurl):
-    req = urllib.request.Request(theurl, headers={'User-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'})
+    req = urllib.request.Request(theurl, headers={'User-agent': u_a})
     with urllib.request.urlopen(req) as response:
         html = response.read().decode('windows-1251')
-    thetext = between(html,['</h2></div>', '<p></p>'])
+    thetext = between(html, ['</h2></div>', '<p></p>'])
     soup = BeautifulSoup(thetext, 'html.parser')
     datas = {}
     datas['text'] = soup.get_text()
     datas['au'] = 'None'
-    # Автор не везде указан, а там, где указан - не отделить однозначно от текста
+    # Автор не везде указан, а там, где указан -
+    # не отделить однозначно от текста
     datas['ti'] = between(html, ['<div class="mnname"><h2>', '</h2></div>'])
     datas['topic'] = between(html, ['<h1>', '</h1>'])
     datas['da'] = between(html, ['<div class="mndata">', '</div>'])
@@ -101,7 +129,7 @@ def pagedatas(theurl):
     return datas
 
 
-topics = ['1','31','37','20','11','10','8','7','5','3']
+topics = ['1', '31', '37', '20', '11', '10', '8', '7', '5', '3']
 # номера соответствуют интересующим нас отделам
 createcsv()
 for tpic in topics:
@@ -116,6 +144,6 @@ for tpic in topics:
             plain(newsdatas)
             mystemxml(newsdatas)
             mystemtxt(newsdatas)
-        if xxx >=50:
+        if xxx >= 50:
             break
         num -= 1

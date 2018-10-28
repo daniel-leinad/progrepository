@@ -1,6 +1,10 @@
 import urllib.request
 from bs4 import BeautifulSoup
 import os
+# по не совсем ясной проблеме с кодировками
+# программе не удается сделать разметку всем
+# скачанным статьям, поэтому в папке plain будет
+# больше файлов, чем в папках mystem
 
 
 u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \
@@ -170,10 +174,13 @@ for tpic in topics:
             xxx += 1
             print(xxx)
             # счетчик чтобы не запутаться
-            newsdatas = pagedatas(url)
-            newsdatas['direc'] = plain(newsdatas)
-            rootcsv(newsdatas)
-            mystem(newsdatas)
+            try:
+                newsdatas = pagedatas(url)
+                newsdatas['direc'] = plain(newsdatas)
+                rootcsv(newsdatas)
+                mystem(newsdatas)
+            except:
+                xxx -= 1
         if xxx >= 50:
             # чтобы скачало 50*10 = 500, что по приблизительным
             # расчетам должно быть больше 100к слов

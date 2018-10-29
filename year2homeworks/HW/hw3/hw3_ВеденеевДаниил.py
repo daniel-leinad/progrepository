@@ -5,6 +5,21 @@ import os
 # программе не удается сделать разметку всем
 # скачанным статьям, поэтому в папке plain будет
 # больше файлов, чем в папках mystem
+# это можно изменить, если ытр. 192-198 изменить на
+"""
+            try:
+                newsdatas = pagedatas(url)
+                newsdatas['direc'] = plain(newsdatas)
+                mystem(newsdatas)
+            except:
+                if os.path.exists(newsdatas['direc']):
+                    os.remove(newsdatas['direc'])
+                xxx -= 1
+            else:
+                rootcsv(newsdatas)
+"""
+# однако менять код и заново выгружать все страницы уже поздно
+# поэтому я решил оставить тот код, которым я выгружал статьи
 
 
 u_a = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' \

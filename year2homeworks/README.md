@@ -5,3 +5,5 @@
 виселица - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw1
 
 github users - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw2
+
+газеты - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw3

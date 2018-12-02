@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Лингвистическая Анкета
+		</title>
+	</head>
+	<body>
+		<h1>
+			Добрый день! Добро пожаловать на сайт "Домашнее задание по проге"!
+		</h1>
+		<form method="GET" action="/collect">
+			<p>
+				<b>Ваш город?</b>
+				<select name="city">
+					<option value="msc">Москва</option>
+					<option value="spb">Санкт-Петербург</option>
+					<option value="sochi">Сочи</option>
+					<option value="other">Другой</option>
+				</select>
+			</p>
+			<p><b>Как вас зовут?</b> <input type="text" name="name" value=""></p>
+			<p><b>Ваш пол?</b></p>
+			<input type="radio" name="sex" value="m">Мужской<br>
+			<input type="radio" name="sex" value="f">Женский<br>
+			<input type="radio" name="sex" value="o">по ситуации<br>
+			<p><b>Какого рода слово "кофе"?</b></p>
+			<input type="radio" name="coffee" value="m">Мужского<br>
+			<input type="radio" name="coffee" value="n">Среднего<br>
+			<input type="radio" name="coffee" value="f">Женского<br>
+			<input type="radio" name="coffee" value="o">Другого/Не знаю/Зависит от ситуации<br>
+			<p><input type="submit" value="Отправить результаты"></p>
+		</form>
+		<a href="/stats">Посмотреть результаты</a><br>
+		<a href="/search">Поиск по результатам</a><br>
+		<a href="/json">json</a><br>
+	</body>
+</html>

@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>Результаты поиска</title>
+	</head>
+	<body>
+	<h1>Результаты поиска по респондентам {{sex}} пола из {{city}}.</h1>
+	{% for i in res %}
+		<p>{{i["name"]}} - {{i["coffee"]}}</p>
+	{% endfor %}
+	<a href="/">Домашняя страница</a>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title>Поиск</title>
+	</head>
+	<body>
+	<h1>Добро пожаловать на страницу поиска!</h1>
+	<p>Выбирите город и пол и мы выдадим вам все результаты с такими респондентами</p>
+	<form method="GET" action="/results">
+	<p>
+		<b>Город - </b>
+		<select name="city">
+		<option value="msc">Москва</option>
+		<option value="spb">Санкт-Петербург</option>
+		<option value="sochi">Сочи</option>
+		<option value="other">Другой</option>
+		</select>
+	</p>
+	<p>
+		<b>Пол - </b>
+		<select name="sex">
+			<option value="m">Мужской</option>
+			<option value="f">Женский</option>
+			<option value="o">по ситуации</option>
+		</select>
+	</p>
+	<p><input type="submit" value="Поиск"></p>
+	</form>
+	<a href="/">Домашняя страница</a>
+	</body>
+</html>

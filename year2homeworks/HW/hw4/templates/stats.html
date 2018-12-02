@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Результаты Лингвистической Анкеты
+		</title>
+	</head>
+	<body>
+		<h1>
+			Добрый день! Здесь вы можете посмотреть результаты опроса "Домашнее задание по проге"!
+		</h1>
+		<h2>Результаты по полу</h2>
+		<table border=1>
+			<tr>
+				<td></td>
+				<td>Мужчины</td>
+				<td>Женщины</td>
+				<td>Остальные</td>
+			</tr>
+			<tr>
+				<td>мой кофе</td>
+				<td>{{res['m']['m']}}</td>
+				<td>{{res['f']['m']}}</td>
+				<td>{{res['o']['m']}}</td>
+			</tr>
+			<tr>
+				<td>мое кофе</td>
+				<td>{{res['m']['n']}}</td>
+				<td>{{res['f']['n']}}</td>
+				<td>{{res['o']['n']}}</td>
+			</tr>
+			<tr>
+				<td>моя кофе</td>
+				<td>{{res['m']['f']}}</td>
+				<td>{{res['f']['f']}}</td>
+				<td>{{res['o']['f']}}</td>
+			</tr>
+			<tr>
+				<td>@#%& кофе</td>
+				<td>{{res['m']['o']}}</td>
+				<td>{{res['f']['o']}}</td>
+				<td>{{res['o']['o']}}</td>
+			</tr>
+		</table>
+		<h2>Результаты по городам</h2>
+		<table border=1>
+			<tr>
+				<td></td>
+				<td>Москва</td>
+				<td>Санкт-Петербург</td>
+				<td>Сочи</td>
+				<td>Другие</td>
+			</tr>
+			<tr>
+				<td>мой кофе</td>
+				<td>{{res['msc']['m']}}</td>
+				<td>{{res['spb']['m']}}</td>
+				<td>{{res['sochi']['m']}}</td>
+				<td>{{res['other']['m']}}</td>
+			</tr>
+			<tr>
+				<td>мое кофе</td>
+				<td>{{res['msc']['n']}}</td>
+				<td>{{res['spb']['n']}}</td>
+				<td>{{res['sochi']['n']}}</td>
+				<td>{{res['other']['n']}}</td>
+			</tr>
+			<tr>
+				<td>моя кофе</td>
+				<td>{{res['msc']['f']}}</td>
+				<td>{{res['spb']['f']}}</td>
+				<td>{{res['sochi']['f']}}</td>
+				<td>{{res['other']['f']}}</td>
+			</tr>
+			<tr>
+				<td>@#%& кофе</td>
+				<td>{{res['msc']['o']}}</td>
+				<td>{{res['spb']['o']}}</td>
+				<td>{{res['sochi']['o']}}</td>
+				<td>{{res['other']['o']}}</td>
+			</tr>
+		</table>
+		<a href="/">Домашняя страница</a>
+	</body>
+</html>

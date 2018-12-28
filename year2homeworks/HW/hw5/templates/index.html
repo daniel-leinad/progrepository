@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Поиск по газетам
+		</title>
+	</head>
+	<body>
+		<h1>Сайт "Поиск по газетам"!</h1>
+		<form method="GET" action="/">
+			Введите фразу: <input type="text" name="text">
+			<input type="hidden" name="pagen" value="0"/>
+			<input type="hidden" name="searchtype" value="phrase"/>
+			<input type="submit" value="Поиск">
+		</form>	
+		<form method="GET" action="/">
+			Введите слово: <input type="text" name="text">
+			<input type="hidden" name="pagen" value="0"/>
+			<input type="hidden" name="searchtype" value="word"/>
+			<input type="submit" value="Поиск">
+		</form>
+		{% if search==True %}
+			<h2>Результаты поиска</h2>
+			{% if num==0 %}
+				<p>Упс, результатов нет................</p>
+			{% else %}
+				{% for i in range(reses) %}
+					<p><a href="{{res[i][0]}}">{{res[i][1]}}</a>: {{res[i][2]}}<b>{{res[i][3]}}</b>{{res[i][4]}}</p>
+				{% endfor %}
+				<p>
+					{% if pn>0 %}<a href="{{page[0]}}">Назад</a>{% endif %}
+					{{pn+1}}/{{pnall}}
+					{% if num>5 %}<a href="{{page[1]}}">Вперед</a>{% endif %}
+				</p>
+			{% endif %}
+		{% endif %}
+	</body>
+</html>

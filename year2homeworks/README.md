@@ -11,3 +11,5 @@ github users - https://github.com/guitrst/progrepository/tree/master/year2homewo
 сайт с анкетой - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw4
 
 поиск по газетам - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw5
+
+NetworkX - https://github.com/guitrst/progrepository/tree/master/year2homeworks/HW/hw8
